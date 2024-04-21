@@ -75,6 +75,33 @@ def get_notations(Input: str):
         index += 1
 
 
+def get_comment(Input:str):
+    index = 0
+    state = 0
+    while index != Input.__len__():
+        if state == 0:
+            if Input[index] == "/":
+                state = 1
+            else:
+                return None
+        elif state == 1:
+            if Input[index] == "/":
+                state = 2
+            else:
+                return None
+        elif state == 2:
+            if Input[index] != "\n":
+                state = 2
+            else:
+                state = 3
+        elif state == 3:
+            if index == Input.__len__() - 1:
+                return Token(Input, "T_Comment")
+            else:
+                return None
+        index += 1
+
+
 def get_numbers(Input: str):
     index = 0
     state = 0
@@ -151,10 +178,15 @@ while 1:
         get_whitespace(program[j])
     elif notations.__contains__(program[j]):
         get_notations(program[j])
+    elif program[i] == "/" and program[i+1] == "/":
+        while program[j] != "\n":
+            j += 1
 
     j -= 1
     ret_token = program[i:j]
     get_keywords(ret_token)
     get_ids(ret_token)
+    get_comment(ret_token)
+    get_numbers(ret_token)
     i = j + 2
     j = i + 1
