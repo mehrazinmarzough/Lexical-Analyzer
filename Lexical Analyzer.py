@@ -7,7 +7,7 @@ class Token:
         print(f'({self.lexeme}, {self.token})')
 
 
-def getNumbers(Input: str):
+def get_numbers(Input: str):
     index = 0
     state = 0
     while index != Input.__len__():
@@ -47,9 +47,21 @@ def getNumbers(Input: str):
         index += 1
 
 
+def get_whitespace(Input: str):
+    if Input == " ":
+        return Token("whitespace (space character)", "T_Whitespace")
+    elif Input == "\t":
+        return Token("whitespace (tab)", "T_Whitespace")
+    elif Input == "\n":
+        return Token("whitespace (newline)", "T_Whitespace")
+    else:
+        return None
+
+
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
 digit = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 hex_digit = digit.union({"A", "B", "C", "D", "E", "F"})
+WS = {" ","\t","\n"}
 
 
 program = input()
@@ -57,4 +69,15 @@ token_list = list()
 
 i = 0
 j = 1
+
+while 1:
+    if WS.__contains__(program[j]):
+        get_whitespace(program[j])
+        j -= 1
+        #program[i:j]
+
+        i = j + 2
+        j = i + 1
+
+
 
