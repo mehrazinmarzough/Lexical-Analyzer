@@ -34,6 +34,38 @@ def get_ids(Input: str):
             return None
 
 
+def get_notations(Input: str):
+    index = 0
+    state = 0
+    while index != Input.__len__():
+        if state == 0:
+            if notations.__contains__(Input[index]):
+                state = 1
+        elif state == 1:
+            c = Input[index]
+            if c == "(":
+                t = "LP"
+            elif c == ")":
+                t = "RP"
+            elif c == "{":
+                t = "LC"
+            elif c == "}":
+                t = "RC"
+            elif c == "[":
+                t = "LB"
+            elif c == "]":
+                t = "RB"
+            elif c == ";":
+                t = "Semicolon"
+            elif c == ",":
+                t = "Comma"
+            else:
+                return None
+            return Token(Input, f'T_{t}')
+        else:
+            return None
+
+
 def get_numbers(Input: str):
     index = 0
     state = 0
@@ -96,6 +128,7 @@ for i in range(97, 123):
     letter_.add(chr(i))
 letter_.add(chr(95))
 letter_digit = letter_.union(digit)
+notations = {"{" , "}", "(", ")", "[", "]", ",", ";"}
 
 
 program = input()
@@ -107,10 +140,12 @@ j = 1
 while 1:
     if WS.__contains__(program[j]):
         get_whitespace(program[j])
-        j -= 1
-        ret_token = program[i:j]
-        get_keywords(ret_token)
-        get_ids(ret_token)
+    elif notations.__contains__(program[j]):
+        get_notations(program[j])
 
-        i = j + 2
-        j = i + 1
+    j -= 1
+    ret_token = program[i:j]
+    get_keywords(ret_token)
+    get_ids(ret_token)
+    i = j + 2
+    j = i + 1
