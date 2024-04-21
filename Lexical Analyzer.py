@@ -7,6 +7,13 @@ class Token:
         print(f'({self.lexeme}, {self.token})')
 
 
+def get_keywords(Input: str):
+    if KW.__contains__(Input):
+        return Token(Input, f'T_{Input.capitalize()}')
+    else:
+        return None
+
+
 def get_ids(Input: str):
     index = 0
     state = 0
@@ -101,7 +108,9 @@ while 1:
     if WS.__contains__(program[j]):
         get_whitespace(program[j])
         j -= 1
-        # program[i:j]
+        ret_token = program[i:j]
+        get_keywords(ret_token)
+        get_ids(ret_token)
 
         i = j + 2
         j = i + 1
