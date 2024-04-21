@@ -8,10 +8,17 @@ class Token:
 
 
 def get_keywords(Input: str):
-    if KW.__contains__(Input):
-        return Token(Input, f'T_{Input.capitalize()}')
-    else:
-        return None
+    index = 0
+    state = 0
+    while index != Input.__len__():
+        if state == 0:
+            state = 1
+        elif state == 1:
+            if KW.__contains__(Input):
+                return Token(Input, f'T_{Input.capitalize()}')
+        else:
+            return None
+        index += 1
 
 
 def get_ids(Input: str):
@@ -32,6 +39,7 @@ def get_ids(Input: str):
                 return None
         else:
             return None
+        index += 1
 
 
 def get_notations(Input: str):
@@ -64,6 +72,7 @@ def get_notations(Input: str):
             return Token(Input, f'T_{t}')
         else:
             return None
+        index += 1
 
 
 def get_numbers(Input: str):
@@ -128,7 +137,7 @@ for i in range(97, 123):
     letter_.add(chr(i))
 letter_.add(chr(95))
 letter_digit = letter_.union(digit)
-notations = {"{" , "}", "(", ")", "[", "]", ",", ";"}
+notations = {"{", "}", "(", ")", "[", "]", ",", ";"}
 
 
 program = input()
