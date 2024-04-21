@@ -7,6 +7,26 @@ class Token:
         print(f'({self.lexeme}, {self.token})')
 
 
+def get_ids(Input: str):
+    index = 0
+    state = 0
+    while index != Input.__len__():
+        if state == 0:
+            if letter_.__contains__(Input[index]):
+                state = 1
+            else:
+                return None
+        elif state == 1:
+            if index == Input.__len__() - 1:
+                return Token(Input, "T_Id")
+            elif letter_digit.__contains__(Input[index]):
+                state = 1
+            else:
+                return None
+        else:
+            return None
+
+
 def get_numbers(Input: str):
     index = 0
     state = 0
@@ -61,7 +81,14 @@ def get_whitespace(Input: str):
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
 digit = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 hex_digit = digit.union({"A", "B", "C", "D", "E", "F"})
-WS = {" ","\t","\n"}
+WS = {" ", "\t", "\n"}
+letter_ = set()
+for i in range(65, 91):
+    letter_.add(chr(i))
+for i in range(97, 123):
+    letter_.add(chr(i))
+letter_.add(chr(95))
+letter_digit = letter_.union(digit)
 
 
 program = input()
@@ -74,10 +101,7 @@ while 1:
     if WS.__contains__(program[j]):
         get_whitespace(program[j])
         j -= 1
-        #program[i:j]
+        # program[i:j]
 
         i = j + 2
         j = i + 1
-
-
-
