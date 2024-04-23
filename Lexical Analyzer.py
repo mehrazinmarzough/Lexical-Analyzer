@@ -325,26 +325,31 @@ token_list = list()
 i = 0
 j = 0
 
-while 1:
+while j != program.__len__():
     k = j
     can_perform = False
-    while delimiter.__contains__(program[k]):
-        can_perform = True
-        if WS.__contains__(program[k]):
-            get_whitespace(program[k]).display()
-        elif notations.__contains__(program[k]):
-            get_notations(program[k]).display()
-
-        k += 1
-
-    while operators.__contains__(program[k]):
+    ch = program[k]
+    while k != program.__len__() and delimiter.__contains__(program[k]):
         can_perform = True
         k += 1
 
+    while k != program.__len__() and operators.__contains__(program[k]):
+        can_perform = True
+        k += 1
+
+    if k == program.__len__():
+        k -= 1
     if j != 0 and can_perform:
         perform(i, j)
+        for t in range(j,k+1):
+            if WS.__contains__(program[t]):
+                get_whitespace(program[t]).display()
+            if notations.__contains__(program[t]):
+                get_notations(program[t]).display()
+            if operators.__contains__(program[t]):
+                get_operators(program[t]).display()
         i = k
-        j = i + 1
+        j = i
     else:
         j += 1
 
