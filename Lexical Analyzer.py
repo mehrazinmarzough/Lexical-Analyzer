@@ -52,6 +52,8 @@ def get_notations(Input: str):
         if state == 0:
             if notations.__contains__(Input[index]):
                 state = 1
+            else:
+                return None
         elif state == 1:
             c = Input[index-1]
             if c == "(":
@@ -282,14 +284,24 @@ def get_whitespace(Input: str):
         return None
 
 
-def perform(i,j):
-    ret_token = program[i:j]
-    print(ret_token)
+def perform(m, n):
+    ret_token = program[m:n]
+    if m == n + 1 and n == program.__len__():
+        ret_token = program[m]
+
+    # print(ret_token)
     a = get_keywords(ret_token)
     b = get_ids(ret_token)
     c = get_comment(ret_token)
     d = get_numbers(ret_token)
     e = get_operators(ret_token)
+    f = get_whitespace(ret_token)
+    g = get_notations(ret_token)
+
+    if n != program.__len__():
+        h = get_whitespace(program[n])
+        k = get_notations(program[n])
+    print(f'{m}:', end=" ")
     if a is not None:
         a.display()
     elif b is not None:
@@ -300,6 +312,17 @@ def perform(i,j):
         d.display()
     elif e is not None:
         e.display()
+    elif f is not None:
+        f.display()
+    elif g is not None:
+       g.display()
+    if n != program.__len__():
+        if h is not None:
+            print(f'{n}:', end=" ")
+            h.display()
+        elif k is not None:
+            print(f'{n}:', end=" ")
+            k.display()
 
 
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
@@ -325,32 +348,39 @@ token_list = list()
 i = 0
 j = 0
 
+# while j != program.__len__():
+#     k = j
+#     can_perform = False
+#     ch = program[k]
+#     while k != program.__len__() and delimiter.__contains__(program[k]):
+#         can_perform = True
+#         k += 1
+#
+#     while k != program.__len__() and operators.__contains__(program[k]):
+#         can_perform = True
+#         k += 1
+#
+#     if k == program.__len__():
+#         k -= 1
+#     if j != 0 and can_perform:
+#         perform(i, j)
+#         for t in range(j,k+1):
+#             if WS.__contains__(program[t]):
+#                 get_whitespace(program[t]).display()
+#             if notations.__contains__(program[t]):
+#                 get_notations(program[t]).display()
+#             if operators.__contains__(program[t]):
+#                 get_operators(program[t]).display()
+#         i = k
+#         j = i
+#     else:
+#         j += 1
+
 while j != program.__len__():
-    k = j
-    can_perform = False
-    ch = program[k]
-    while k != program.__len__() and delimiter.__contains__(program[k]):
-        can_perform = True
-        k += 1
-
-    while k != program.__len__() and operators.__contains__(program[k]):
-        can_perform = True
-        k += 1
-
-    if k == program.__len__():
-        k -= 1
-    if j != 0 and can_perform:
-        perform(i, j)
-        for t in range(j,k+1):
-            if WS.__contains__(program[t]):
-                get_whitespace(program[t]).display()
-            if notations.__contains__(program[t]):
-                get_notations(program[t]).display()
-            if operators.__contains__(program[t]):
-                get_operators(program[t]).display()
-        i = k
-        j = i
-    else:
-        j += 1
-
-
+    if delimiter.__contains__(program[j]):
+        if i == j:
+            perform(i, i+1)
+        else:
+            perform(i, j)
+        i = j + 1
+    j += 1
