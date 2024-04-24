@@ -297,11 +297,13 @@ def perform(m, n):
     e = get_operators(ret_token)
     f = get_whitespace(ret_token)
     g = get_notations(ret_token)
+    h = None
+    k = None
 
     if n != program.__len__():
         h = get_whitespace(program[n])
         k = get_notations(program[n])
-    print(f'{m}:', end=" ")
+    print(f'{m}: ', end=" ")
     if a is not None:
         a.display()
     elif b is not None:
@@ -315,13 +317,13 @@ def perform(m, n):
     elif f is not None:
         f.display()
     elif g is not None:
-       g.display()
+        g.display()
     if n != program.__len__():
         if h is not None:
-            print(f'{n}:', end=" ")
+            print(f'{n}: ', end=" ")
             h.display()
         elif k is not None:
-            print(f'{n}:', end=" ")
+            print(f'{n}: ', end=" ")
             k.display()
 
 
@@ -342,39 +344,17 @@ arithmetic_operators = {"+", "-", "*", "/", "%"}
 delimiter = WS.union(notations).union(operators)
 
 
-program = input()
-token_list = list()
+lines = []
+while True:
+    line = input()
+    if line == "END":
+        break
+    lines.append(line)
+
+program = '\n'.join(lines)
 
 i = 0
 j = 0
-
-# while j != program.__len__():
-#     k = j
-#     can_perform = False
-#     ch = program[k]
-#     while k != program.__len__() and delimiter.__contains__(program[k]):
-#         can_perform = True
-#         k += 1
-#
-#     while k != program.__len__() and operators.__contains__(program[k]):
-#         can_perform = True
-#         k += 1
-#
-#     if k == program.__len__():
-#         k -= 1
-#     if j != 0 and can_perform:
-#         perform(i, j)
-#         for t in range(j,k+1):
-#             if WS.__contains__(program[t]):
-#                 get_whitespace(program[t]).display()
-#             if notations.__contains__(program[t]):
-#                 get_notations(program[t]).display()
-#             if operators.__contains__(program[t]):
-#                 get_operators(program[t]).display()
-#         i = k
-#         j = i
-#     else:
-#         j += 1
 
 while j != program.__len__():
     if delimiter.__contains__(program[j]):
