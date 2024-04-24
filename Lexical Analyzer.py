@@ -366,4 +366,8 @@ while j < program.__len__():
         else:
             perform(i, j)
         i = j + 1
+        if j != program.__len__() - 1 and delimiter.__contains__(program[j+1]):
+            i += 1
+            j += 1
     j += 1
+
