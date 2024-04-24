@@ -98,13 +98,15 @@ def get_comment(Input: str):
             else:
                 return None
         elif state == 2:
-            if Input[index] != "\n":
+            if index < Input.__len__() and Input[index] != "\n":
                 state = 2
+            elif index == Input.__len__() - 1:
+                state = 3
             else:
                 state = 3
         elif state == 3:
             if index == Input.__len__():
-                return Token(Input, "T_Comment")
+                return Token(Input[:-1], "T_Comment")
             else:
                 return None
 
@@ -360,14 +362,14 @@ while j < program.__len__():
         if j != program.__len__() - 1 and program[j] == "/" and program[j+1] == "/":
             while j != program.__len__() and program[j] != "\n":
                 j += 1
+            j += 1
 
         if i == j:
             perform(i, i+1)
         else:
             perform(i, j)
         i = j + 1
-        if j != program.__len__() - 1 and delimiter.__contains__(program[j+1]):
+        if j < program.__len__() - 1 and delimiter.__contains__(program[j+1]):
             i += 1
             j += 1
     j += 1
-
