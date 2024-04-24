@@ -4,7 +4,7 @@ class Token:
         self.token = token
 
     def display(self):
-        print(f'({self.lexeme}, {self.token})')
+        print(f'{self.lexeme} -> {self.token}')
 
 
 def get_keywords(Input: str):
@@ -286,8 +286,6 @@ def get_whitespace(Input: str):
 
 def perform(m, n):
     ret_token = program[m:n]
-    if m == n + 1 and n == program.__len__():
-        ret_token = program[m]
 
     # print(ret_token)
     a = get_keywords(ret_token)
@@ -300,7 +298,7 @@ def perform(m, n):
     h = None
     k = None
 
-    if n != program.__len__():
+    if n < program.__len__():
         h = get_whitespace(program[n])
         k = get_notations(program[n])
     print(f'{m}: ', end=" ")
@@ -356,8 +354,13 @@ program = '\n'.join(lines)
 i = 0
 j = 0
 
-while j != program.__len__():
+while j < program.__len__():
+
     if delimiter.__contains__(program[j]):
+        if j != program.__len__() - 1 and program[j] == "/" and program[j+1] == "/":
+            while j != program.__len__() and program[j] != "\n":
+                j += 1
+
         if i == j:
             perform(i, i+1)
         else:
