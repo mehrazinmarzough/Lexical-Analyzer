@@ -82,6 +82,35 @@ def get_notations(m: int):
             return None, None
 
 
+def get_comments(m: int):
+    index = m
+    state = 0
+
+    while 1:
+        if state == 0:
+            if program[index] == "/":
+                state = 1
+            else:
+                return None, None
+        elif state == 1:
+            if program[index] == "/":
+                state = 2
+            else:
+                return None, None
+        elif state == 2:
+            if program[index] != "\n":
+                state = 2
+            else:
+                state = 3
+        elif state == 3:
+            token = program[m:index]
+            index += 1
+            return Token(token, "T_Comment"), index
+        else:
+            return None, None
+        index += 1
+
+
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
 digit = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 hex_digit = digit.union({"A", "B", "C", "D", "E", "F"})
