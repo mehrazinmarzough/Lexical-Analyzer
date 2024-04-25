@@ -24,7 +24,6 @@ def get_ids_or_keywords(m: int):
         elif state == 2:
             index -= 1
             token = program[m:index]
-            index += 1
             if KW.__contains__(token):
                 return Token(token, f'T_{token.capitalize()}'), index
             else:
@@ -55,37 +54,29 @@ def get_notations(m: int):
                 state = 8
 
         elif state == 1:
-            index += 1
             return Token("{", "T_LC"), index
         elif state == 2:
-            index += 1
             return Token("}", "T_RC"), index
         elif state == 3:
-            index += 1
             return Token("(", "T_LP"), index
         elif state == 4:
-            index += 1
             return Token(")", "T_RP"), index
         elif state == 5:
-            index += 1
             return Token("[", "T_LB"), index
         elif state == 6:
-            index += 1
             return Token("]", "T_RB"), index
         elif state == 7:
-            index += 1
             return Token(",", "T_Comma"), index
         elif state == 8:
-            index += 1
             return Token(";", "T_Semicolon"), index
         else:
             return None, None
+        index += 1
 
 
 def get_comments(m: int):
     index = m
     state = 0
-
     while 1:
         if state == 0:
             if program[index] == "/":
@@ -104,7 +95,6 @@ def get_comments(m: int):
                 state = 3
         elif state == 3:
             token = program[m:index]
-            index += 1
             return Token(token, "T_Comment"), index
         else:
             return None, None
@@ -114,7 +104,6 @@ def get_comments(m: int):
 def get_numbers(m: int):
     index = m
     state = 0
-
     while 1:
         if state == 0:
             if digit_but_0.__contains__(program[index]):
@@ -129,8 +118,8 @@ def get_numbers(m: int):
             else:
                 state = 2
         elif state == 2:
+            index -= 1
             token = Token(program[m:index], "T_Decimal")
-            index += 1
             return token, index
         elif state == 3:
             if hex_digit.__contains__(program[index]):
@@ -145,7 +134,6 @@ def get_numbers(m: int):
         elif state == 5:
             index -= 1
             token = Token(program[m:index], "T_Hexadecimal")
-            index += 1
             return token, index
         elif state == 6:
             if digit.__contains__(program[index]):
@@ -155,10 +143,10 @@ def get_numbers(m: int):
         elif state == 7:
             index -= 1
             token = Token(program[m:index], "T_Decimal")
-            index += 1
             return token, index
         else:
             return None, None
+        index += 1
 
 
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
