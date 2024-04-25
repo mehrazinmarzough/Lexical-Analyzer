@@ -133,7 +133,9 @@ def get_numbers(Input: str):
             else:
                 return None
         elif state == 2:
-            if Input[index] == "x":
+            if index == Input.__len__():
+                return Token(Input, "T_Decimal")
+            elif Input[index] == "x":
                 state = 3
             else:
                 return None
@@ -276,33 +278,34 @@ def get_operators(Input: str):
 
 
 def get_whitespace(Input: str):
-    if Input == " ":
-        return Token("whitespace (space character)", "T_Whitespace")
-    elif Input == "\t":
-        return Token("whitespace (tab)", "T_Whitespace")
-    elif Input == "\n":
-        return Token("whitespace (newline)", "T_Whitespace")
-    else:
-        return None
+    index = -1
+    state = 0
+    while 1:
+        index += 1
+        if state == 0:
+            if WS.__contains__(Input[index]):
+                state = 1
+            else:
+                return None, index
+        elif state == 1:
+            if WS.__contains__(Input[index]):
+                state = 1
+            else:
+                if notations.__contains__(Input[index]):
+                    return None, index
+                else:
+                    return Token("whitespace", "T_Whitespace"), index
 
 
 def perform(m, n):
     ret_token = program[m:n]
 
-    # print(ret_token)
     a = get_keywords(ret_token)
     b = get_ids(ret_token)
     c = get_comment(ret_token)
     d = get_numbers(ret_token)
     e = get_operators(ret_token)
-    f = get_whitespace(ret_token)
-    g = get_notations(ret_token)
-    h = None
-    k = None
 
-    if n < program.__len__():
-        h = get_whitespace(program[n])
-        k = get_notations(program[n])
     print(f'{m}: ', end=" ")
     if a is not None:
         a.display()
@@ -314,17 +317,6 @@ def perform(m, n):
         d.display()
     elif e is not None:
         e.display()
-    elif f is not None:
-        f.display()
-    elif g is not None:
-        g.display()
-    if n != program.__len__():
-        if h is not None:
-            print(f'{n}: ', end=" ")
-            h.display()
-        elif k is not None:
-            print(f'{n}: ', end=" ")
-            k.display()
 
 
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
@@ -359,17 +351,31 @@ j = 0
 while j < program.__len__():
 
     if delimiter.__contains__(program[j]):
-        if j != program.__len__() - 1 and program[j] == "/" and program[j+1] == "/":
-            while j != program.__len__() and program[j] != "\n":
-                j += 1
-            j += 1
-
-        if i == j:
-            perform(i, i+1)
-        else:
+        if i != j:
             perform(i, j)
-        i = j + 1
-        if j < program.__len__() - 1 and delimiter.__contains__(program[j+1]):
-            i += 1
-            j += 1
+        f, i = get_whitespace(program[j:])
+        g = get_notations(program[j])
+
+        if f is not None:
+            i += j
+            print(f'{j}: ', end=" ")
+            f.display()
+        if g is not None:
+            i = j+1
+            print(f'{j}: ', end=" ")
+            g.display()
+    elif program[j] == "/" and program[j+1] == "/":
+        get_comment()
+
+
+
+
+
+
+        # if j != program.__len__() - 1 and program[j] == "/" and program[j+1] == "/":
+        #     while j != program.__len__() and program[j] != "\n":
+        #         j += 1
+        #     j += 1
+
     j += 1
+
