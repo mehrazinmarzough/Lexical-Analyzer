@@ -384,10 +384,10 @@ def get_whitespace(m: int):
 
 
 def write_in_files(X: Token):
-    with open(f'{file_name}_output.txt', 'a+') as f1:
-        f1.write(f'{i}: {X.display()}\n')
-    with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
-        f2.write(f'{i}: {X.display()}\n')
+    with open(f'{file_name}_output.txt', 'a+') as x:
+        x.write(f'{i}: {X.display()}\n')
+    with open(f'{file_name}_output_no_whitespace.txt', 'a+') as x:
+        x.write(f'{i}: {X.display()}\n')
 
 
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
