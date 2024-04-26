@@ -396,53 +396,50 @@ for i in range(97, 123):
 letter_.add(chr(95))
 letter_digit = letter_.union(digit)
 
+file_name = " "
+while file_name != "END":
+    print("Please enter the file name")
+    file_name = input()
+    if file_name != "END":
+        with open(file_name, 'r') as file:
+            program = file.read()
+        i = 0
+        while i != program.__len__():
+            A, a = get_ids_or_keywords(i)
+            B, b = get_notations(i)
+            C, c = get_comments(i)
+            D, d = get_numbers(i)
+            E, e = get_literals(i)
+            F, f = get_operators(i)
+            G, g = get_whitespace(i)
 
-lines = []
-while True:
-    line = input()
-    if line == "END":
-        break
-    lines.append(line)
-
-program = '\n'.join(lines)
-
-i = 0
-while i != program.__len__():
-    A, a = get_ids_or_keywords(i)
-    B, b = get_notations(i)
-    C, c = get_comments(i)
-    D, d = get_numbers(i)
-    E, e = get_literals(i)
-    F, f = get_operators(i)
-    G, g = get_whitespace(i)
-
-    if A is not None:
-        print(f'{i}: ', end="")
-        i = a
-        A.display()
-    elif B is not None:
-        print(f'{i}: ', end="")
-        i = b
-        B.display()
-    elif C is not None:
-        print(f'{i}: ', end="")
-        i = c
-        C.display()
-    elif D is not None:
-        print(f'{i}: ', end="")
-        i = d
-        D.display()
-    elif E is not None:
-        print(f'{i}: ', end="")
-        i = e
-        E.display()
-    elif F is not None:
-        print(f'{i}: ', end="")
-        i = f
-        F.display()
-    elif G is not None:
-        print(f'{i}: ', end="")
-        i = g
-        G.display()
-    else:
-        i += 1
+            if A is not None:
+                print(f'{i}: ', end="")
+                i = a
+                A.display()
+            elif B is not None:
+                print(f'{i}: ', end="")
+                i = b
+                B.display()
+            elif C is not None:
+                print(f'{i}: ', end="")
+                i = c
+                C.display()
+            elif D is not None:
+                print(f'{i}: ', end="")
+                i = d
+                D.display()
+            elif E is not None:
+                print(f'{i}: ', end="")
+                i = e
+                E.display()
+            elif F is not None:
+                print(f'{i}: ', end="")
+                i = f
+                F.display()
+            elif G is not None:
+                print(f'{i}: ', end="")
+                i = g
+                G.display()
+            else:
+                i += 1
