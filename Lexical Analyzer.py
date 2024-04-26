@@ -10,7 +10,7 @@ class Token:
 def get_ids_or_keywords(m: int):
     index = m
     state = 0
-    while 1:
+    while index != program.__len__():
         c = program[index]
         if state == 0:
             if letter_.__contains__(c):
@@ -30,12 +30,13 @@ def get_ids_or_keywords(m: int):
             else:
                 return Token(token, "T_Id"), index
         index += 1
+    return None, None
 
 
 def get_notations(m: int):
     index = m
     state = 0
-    while 1:
+    while index != program.__len__():
         c = program[index]
         if state == 0:
             if c == "{":
@@ -54,6 +55,8 @@ def get_notations(m: int):
                 state = 7
             elif c == ";":
                 state = 8
+            else:
+                return None, None
 
         elif state == 1:
             return Token("{", "T_LC"), index
@@ -74,12 +77,13 @@ def get_notations(m: int):
         else:
             return None, None
         index += 1
+    return None, None
 
 
 def get_comments(m: int):
     index = m
     state = 0
-    while 1:
+    while index != program.__len__():
         c = program[index]
         if state == 0:
             if c == "/":
@@ -97,17 +101,19 @@ def get_comments(m: int):
             else:
                 state = 3
         elif state == 3:
+            index -= 1
             token = program[m:index]
             return Token(token, "T_Comment"), index
         else:
             return None, None
         index += 1
+    return None, None
 
 
 def get_numbers(m: int):
     index = m
     state = 0
-    while 1:
+    while index != program.__len__():
         c = program[index]
         if state == 0:
             if digit_but_0.__contains__(c):
@@ -117,7 +123,7 @@ def get_numbers(m: int):
             else:
                 return None, None
         elif state == 1:
-            if c == "x":
+            if c == "X":
                 state = 3
             else:
                 state = 2
@@ -151,12 +157,13 @@ def get_numbers(m: int):
         else:
             return None, None
         index += 1
+    return None, None
 
 
 def get_literals(m: int):
     index = m
     state = 0
-    while 1:
+    while index != program.__len__():
         c = program[index]
         if state == 0:
             if c == "'":
@@ -171,12 +178,12 @@ def get_literals(m: int):
             elif c.isascii() and c != "'":
                 state = 2
             else:
-                return None
+                return None, None
         elif state == 2:
             if c == "'":
                 state = 3
             else:
-                return None
+                return None, None
         elif state == 3:
             token = Token(program[m:index], "T_Character")
             return token, index
@@ -205,12 +212,13 @@ def get_literals(m: int):
         else:
             return None, None
         index += 1
+    return None, None
 
 
 def get_operators(m: int):
     index = m
     state = 0
-    while 1:
+    while index != program.__len__():
         c = program[index]
         if state == 0:
             if c == "+":
@@ -248,13 +256,13 @@ def get_operators(m: int):
             else:
                 state = 9
         elif state == 3:
-            token = Token(program[m:index], "T_LOp_ML")
+            token = Token(program[m:index], "T_AOp_ML")
             return token, index
         elif state == 4:
-            token = Token(program[m:index], "T_LOp_DV")
+            token = Token(program[m:index], "T_AOp_DV")
             return token, index
         elif state == 5:
-            token = Token(program[m:index], "T_LOp_RM")
+            token = Token(program[m:index], "T_AOp_RM")
             return token, index
         elif state == 6:
             if digit.__contains__(c):
@@ -267,11 +275,11 @@ def get_operators(m: int):
             return token, index
         elif state == 8:
             index -= 1
-            token = Token(program[m:index], "T_Lop_PL")
+            token = Token(program[m:index], "T_AOp_PL")
             return token, index
         elif state == 9:
             index -= 1
-            token = Token(program[m:index], "T_LOp_MN")
+            token = Token(program[m:index], "T_AOp_MN")
             return token, index
         elif state == 10:
             if c == "=":
@@ -279,11 +287,11 @@ def get_operators(m: int):
             else:
                 state = 12
         elif state == 11:
-            token = Token(program[m:index], "T_LOp_GE")
+            token = Token(program[m:index], "T_ROp_GE")
             return token, index
         elif state == 12:
             index -= 1
-            token = Token(program[m:index], "T_LOp_G")
+            token = Token(program[m:index], "T_ROp_G")
             return token, index
         elif state == 13:
             if c == "=":
@@ -291,11 +299,11 @@ def get_operators(m: int):
             else:
                 state = 15
         elif state == 14:
-            token = Token(program[m:index], "T_LOp_LE")
+            token = Token(program[m:index], "T_ROp_LE")
             return token, index
         elif state == 15:
             index -= 1
-            token = Token(program[m:index], "T_LOp_L")
+            token = Token(program[m:index], "T_ROp_L")
             return token, index
         elif state == 16:
             if c == "=":
@@ -303,7 +311,7 @@ def get_operators(m: int):
             else:
                 state = 18
         elif state == 17:
-            token = Token(program[m:index], "T_LOp_E")
+            token = Token(program[m:index], "T_ROp_E")
             return token, index
         elif state == 18:
             index -= 1
@@ -315,7 +323,7 @@ def get_operators(m: int):
             else:
                 state = 21
         elif state == 20:
-            token = Token(program[m:index], "T_LOp_NE")
+            token = Token(program[m:index], "T_ROp_NE")
             return token, index
         elif state == 21:
             index -= 1
@@ -340,13 +348,14 @@ def get_operators(m: int):
         else:
             return None, None
         index += 1
+    return None, None
 
 
 def get_whitespace(m: int):
     index = m
     state = 0
-    while 1:
-        c = program[m:index]
+    while index != program.__len__():
+        c = program[index]
         if state == 0:
             if WS.__contains__(c):
                 state = 1
@@ -364,6 +373,7 @@ def get_whitespace(m: int):
         else:
             return None, None
         index += 1
+    return None, None
 
 
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
@@ -388,3 +398,44 @@ while True:
     lines.append(line)
 
 program = '\n'.join(lines)
+
+i = 0
+while i != program.__len__():
+    A, a = get_ids_or_keywords(i)
+    B, b = get_notations(i)
+    C, c = get_comments(i)
+    D, d = get_numbers(i)
+    E, e = get_literals(i)
+    F, f = get_operators(i)
+    G, g = get_whitespace(i)
+
+    if A is not None:
+        print(f'{i}: ', end="")
+        i = a
+        A.display()
+    elif B is not None:
+        print(f'{i}: ', end="")
+        i = b
+        B.display()
+    elif C is not None:
+        print(f'{i}: ', end="")
+        i = c
+        C.display()
+    elif D is not None:
+        print(f'{i}: ', end="")
+        i = d
+        D.display()
+    elif E is not None:
+        print(f'{i}: ', end="")
+        i = e
+        E.display()
+    elif F is not None:
+        print(f'{i}: ', end="")
+        i = f
+        F.display()
+    elif G is not None:
+        print(f'{i}: ', end="")
+        i = g
+        G.display()
+    else:
+        i += 1
