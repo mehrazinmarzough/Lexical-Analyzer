@@ -10,8 +10,9 @@ class Token:
 def get_ids_or_keywords(m: int):
     index = m
     state = 0
-    while index != program.__len__():
-        c = program[index]
+    while index != program.__len__()+1:
+        if index < program.__len__():
+            c = program[index]
         if state == 0:
             if letter_.__contains__(c):
                 state = 1
@@ -36,8 +37,9 @@ def get_ids_or_keywords(m: int):
 def get_notations(m: int):
     index = m
     state = 0
-    while index != program.__len__():
-        c = program[index]
+    while index != program.__len__()+1:
+        if index < program.__len__():
+            c = program[index]
         if state == 0:
             if c == "{":
                 state = 1
@@ -83,8 +85,9 @@ def get_notations(m: int):
 def get_comments(m: int):
     index = m
     state = 0
-    while index != program.__len__():
-        c = program[index]
+    while index != program.__len__()+1:
+        if index < program.__len__():
+            c = program[index]
         if state == 0:
             if c == "/":
                 state = 1
@@ -113,8 +116,9 @@ def get_comments(m: int):
 def get_numbers(m: int):
     index = m
     state = 0
-    while index != program.__len__():
-        c = program[index]
+    while index != program.__len__()+1:
+        if index < program.__len__():
+            c = program[index]
         if state == 0:
             if digit_but_0.__contains__(c):
                 state = 6
@@ -123,7 +127,7 @@ def get_numbers(m: int):
             else:
                 return None, None
         elif state == 1:
-            if c == "X":
+            if c == "X" or c == "x":
                 state = 3
             else:
                 state = 2
@@ -163,8 +167,9 @@ def get_numbers(m: int):
 def get_literals(m: int):
     index = m
     state = 0
-    while index != program.__len__():
-        c = program[index]
+    while index != program.__len__()+1:
+        if index < program.__len__():
+            c = program[index]
         if state == 0:
             if c == "'":
                 state = 1
@@ -193,7 +198,7 @@ def get_literals(m: int):
             else:
                 return None, None
         elif state == 5:
-            if c.isascii() and c == "\"" and c == "\\":
+            if c.isascii() and c != "\"" and c != "\\":
                 state = 5
             elif c == "\"":
                 state = 6
@@ -205,7 +210,7 @@ def get_literals(m: int):
             token = Token(program[m:index], "T_String")
             return token, index
         elif state == 7:
-            if c.isascii() and c != "\\":
+            if c.isascii():
                 state = 5
             else:
                 return None, None
@@ -218,8 +223,9 @@ def get_literals(m: int):
 def get_operators(m: int):
     index = m
     state = 0
-    while index != program.__len__():
-        c = program[index]
+    while index != program.__len__()+1:
+        if index < program.__len__():
+            c = program[index]
         if state == 0:
             if c == "+":
                 state = 1
@@ -354,8 +360,9 @@ def get_operators(m: int):
 def get_whitespace(m: int):
     index = m
     state = 0
-    while index != program.__len__():
-        c = program[index]
+    while index != program.__len__()+1:
+        if index < program.__len__():
+            c = program[index]
         if state == 0:
             if WS.__contains__(c):
                 state = 1
@@ -378,7 +385,7 @@ def get_whitespace(m: int):
 
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
 digit = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
-hex_digit = digit.union({"A", "B", "C", "D", "E", "F"})
+hex_digit = digit.union({"A", "B", "C", "D", "E", "F", "a", "b", "c", "d", "e", "f"})
 digit_but_0 = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
 WS = {" ", "\t", "\n"}
 letter_ = set()
