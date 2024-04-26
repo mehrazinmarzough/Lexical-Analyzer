@@ -337,6 +337,30 @@ def get_operators(m: int):
         index += 1
 
 
+def get_whitespace(m: int):
+    index = m
+    state = 0
+    while 1:
+        c = program[m:index]
+        if state == 0:
+            if WS.__contains__(c):
+                state = 1
+            else:
+                return None, None
+        elif state == 1:
+            if WS.__contains__(c):
+                state = 1
+            else:
+                state = 2
+        elif state == 2:
+            index -= 1
+            token = Token("whitespace", "T_Whitespace")
+            return token, index
+        else:
+            return None, None
+        index += 1
+
+
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
 digit = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 hex_digit = digit.union({"A", "B", "C", "D", "E", "F"})
