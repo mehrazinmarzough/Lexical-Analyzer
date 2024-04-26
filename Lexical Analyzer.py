@@ -4,7 +4,7 @@ class Token:
         self.token = token
 
     def display(self):
-        print(f'{self.lexeme} -> {self.token}')
+        return f'{self.lexeme} -> {self.token}'
 
 
 def get_ids_or_keywords(m: int):
@@ -403,6 +403,11 @@ while file_name != "END":
     if file_name != "END":
         with open(file_name, 'r') as file:
             program = file.read()
+        with open(f'{file_name}_output.txt', 'w') as f1:
+            pass
+        with open(f'{file_name}_output_no_whitespace.txt', 'w') as f2:
+            pass
+
         i = 0
         while i != program.__len__():
             A, a = get_ids_or_keywords(i)
@@ -414,32 +419,54 @@ while file_name != "END":
             G, g = get_whitespace(i)
 
             if A is not None:
-                print(f'{i}: ', end="")
+                with open(f'{file_name}_output.txt', 'a+') as f1:
+                    f1.write(f'{i}: {A.display()}\n')
+                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
+                    f2.write(f'{i}: {A.display()}\n')
+
                 i = a
-                A.display()
             elif B is not None:
-                print(f'{i}: ', end="")
+                with open(f'{file_name}_output.txt', 'a+') as f1:
+                    f1.write(f'{i}: {B.display()}\n')
+                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
+                    f2.write(f'{i}: {B.display()}\n')
+
                 i = b
-                B.display()
             elif C is not None:
-                print(f'{i}: ', end="")
+                with open(f'{file_name}_output.txt', 'a+') as f1:
+                    f1.write(f'{i}: {C.display()}\n')
+                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
+                    f2.write(f'{i}: {C.display()}\n')
+
                 i = c
-                C.display()
             elif D is not None:
-                print(f'{i}: ', end="")
+                with open(f'{file_name}_output.txt', 'a+') as f1:
+                    f1.write(f'{i}: {D.display()}\n')
+                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
+                    f2.write(f'{i}: {D.display()}\n')
+
                 i = d
-                D.display()
             elif E is not None:
-                print(f'{i}: ', end="")
+                with open(f'{file_name}_output.txt', 'a+') as f1:
+                    f1.write(f'{i}: {E.display()}\n')
+                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
+                    f2.write(f'{i}: {E.display()}\n')
+
                 i = e
-                E.display()
             elif F is not None:
-                print(f'{i}: ', end="")
+                with open(f'{file_name}_output.txt', 'a+') as f1:
+                    f1.write(f'{i}: {F.display()}\n')
+                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
+                    f2.write(f'{i}: {F.display()}\n')
+
                 i = f
-                F.display()
             elif G is not None:
-                print(f'{i}: ', end="")
+                with open(f'{file_name}_output.txt', 'a+') as f1:
+                    f1.write(f'{i}: {G.display()}\n')
+
                 i = g
-                G.display()
             else:
                 i += 1
+
+        f1.close()
+        f2.close()
