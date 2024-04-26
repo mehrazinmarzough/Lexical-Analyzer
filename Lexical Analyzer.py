@@ -452,3 +452,4 @@ while file_name != "END":
 
         f1.close()
         f2.close()
+        print("The output is ready")
