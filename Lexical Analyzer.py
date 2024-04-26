@@ -383,6 +383,13 @@ def get_whitespace(m: int):
     return None, None
 
 
+def write_in_files(X: Token):
+    with open(f'{file_name}_output.txt', 'a+') as f1:
+        f1.write(f'{i}: {X.display()}\n')
+    with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
+        f2.write(f'{i}: {X.display()}\n')
+
+
 KW = {"bool", "break", "char", "continue", "else", "false", "for", "if", "int", "print", "return", "true"}
 digit = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"}
 hex_digit = digit.union({"A", "B", "C", "D", "E", "F", "a", "b", "c", "d", "e", "f"})
@@ -419,51 +426,26 @@ while file_name != "END":
             G, g = get_whitespace(i)
 
             if A is not None:
-                with open(f'{file_name}_output.txt', 'a+') as f1:
-                    f1.write(f'{i}: {A.display()}\n')
-                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
-                    f2.write(f'{i}: {A.display()}\n')
-
+                write_in_files(A)
                 i = a
             elif B is not None:
-                with open(f'{file_name}_output.txt', 'a+') as f1:
-                    f1.write(f'{i}: {B.display()}\n')
-                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
-                    f2.write(f'{i}: {B.display()}\n')
-
+                write_in_files(B)
                 i = b
             elif C is not None:
-                with open(f'{file_name}_output.txt', 'a+') as f1:
-                    f1.write(f'{i}: {C.display()}\n')
-                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
-                    f2.write(f'{i}: {C.display()}\n')
-
+                write_in_files(C)
                 i = c
             elif D is not None:
-                with open(f'{file_name}_output.txt', 'a+') as f1:
-                    f1.write(f'{i}: {D.display()}\n')
-                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
-                    f2.write(f'{i}: {D.display()}\n')
-
+                write_in_files(D)
                 i = d
             elif E is not None:
-                with open(f'{file_name}_output.txt', 'a+') as f1:
-                    f1.write(f'{i}: {E.display()}\n')
-                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
-                    f2.write(f'{i}: {E.display()}\n')
-
+                write_in_files(E)
                 i = e
             elif F is not None:
-                with open(f'{file_name}_output.txt', 'a+') as f1:
-                    f1.write(f'{i}: {F.display()}\n')
-                with open(f'{file_name}_output_no_whitespace.txt', 'a+') as f2:
-                    f2.write(f'{i}: {F.display()}\n')
-
+                write_in_files(F)
                 i = f
             elif G is not None:
                 with open(f'{file_name}_output.txt', 'a+') as f1:
                     f1.write(f'{i}: {G.display()}\n')
-
                 i = g
             else:
                 i += 1
